@@ -1,5 +1,6 @@
 name: Node.js CI  # Name of the workflow
 
+# This tells GitHub to run the workflow on these events
 on:
   push:
     branches:
@@ -21,9 +22,14 @@ jobs:
       with:
         node-version: '14'  # Use Node.js version 14
 
+    - name: Cache node modules
+      uses: actions/cache@v2  # Caches dependencies to speed up workflow
+      with:
+        path: ~/.npm  # Cache the npm modules folder
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}  # Cache key based on package-lock.json
+
     - name: Install dependencies
       run: npm install  # Run npm install to install dependencies
 
     - name: Run tests
       run: npm test  # Run the test command defined in your package.json
-
