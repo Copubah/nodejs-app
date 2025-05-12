@@ -1,0 +1,29 @@
+name: Node.js CI
+
+# This tells GitHub to run the workflow on these events
+on:
+  push:
+    branches:
+      - main   # Trigger when code is pushed to the 'main' branch
+  pull_request:
+    branches:
+      - main   # Trigger when a pull request is opened for the 'main' branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest   # The job runs on a fresh virtual machine with Ubuntu
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2   # Checks out the code from your repository
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2   # Sets up Node.js (this will install Node.js)
+      with:
+        node-version: '14'  # You can change the version of Node.js to your preference
+
+    - name: Install dependencies
+      run: npm install   # Installs all the dependencies defined in package.json
+
+    - name: Run tests
+      run: npm test   # Runs the test command defined in your package.json (e.g., 'npm test')
